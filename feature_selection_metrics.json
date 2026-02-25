@@ -1,0 +1,7 @@
+{
+  "all_features_f1": 0.9514742939325005,
+  "selected_features_f1": 0.9486603596277327,
+  "f1_improvement": -0.00281393430476784,
+  "n_features_selected": 15,
+  "n_features_anomaly": 15
+}

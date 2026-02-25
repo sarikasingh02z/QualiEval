@@ -1,0 +1,58 @@
+{
+  "clean": {
+    "baseline_test_metrics": {
+      "accuracy": 0.8923355062421225,
+      "precision": 0.9896764508047299,
+      "recall": 0.8506883635967522,
+      "f1": 0.9149340759365904,
+      "roc_auc": 0.9856875647903307
+    },
+    "optimal_thresholds": {
+      "balanced": 0.5081632653061224,
+      "security": 0.1,
+      "operations": 0.9
+    },
+    "validation_metrics": {
+      "balanced": {
+        "threshold": 0.5081632653061224,
+        "accuracy": 0.972095075277119,
+        "precision": 0.9782122905027933,
+        "recall": 0.9656960070593426,
+        "f1": 0.9719138543516874
+      },
+      "security": {
+        "threshold": 0.1,
+        "accuracy": 0.9220757734517179,
+        "precision": 0.8690326936059408,
+        "recall": 0.9939333774542246,
+        "f1": 0.9272961152559814
+      },
+      "operations": {
+        "threshold": 0.9,
+        "accuracy": 0.9336568686924392,
+        "precision": 0.99835213588541,
+        "recall": 0.8687403485550408,
+        "f1": 0.9290474786198761
+      }
+    },
+    "error_analysis": {
+      "false_positives": 195,
+      "false_negatives": 311,
+      "fp_features": {
+        "dttl": 1352.2015343662758,
+        "dload": 12.379629564921277,
+        "dpkts": 6.360634731242534,
+        "dbytes": 6.268630166481553,
+        "sbytes": -0.15105729435926984
+      },
+      "fn_features": {
+        "dttl": 1422.7214203195763,
+        "dload": 12.38885606905935,
+        "dbytes": 6.3196518081081745,
+        "dpkts": 6.287536958702124,
+        "sbytes": -0.3673214224404536
+      }
+    }
+  },
+  "faulty": null
+}

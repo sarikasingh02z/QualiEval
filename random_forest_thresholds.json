@@ -1,0 +1,36 @@
+{
+  "clean": {
+    "optimal_thresholds": {
+      "balanced": 0.5081632653061224,
+      "security": 0.1,
+      "operations": 0.9
+    },
+    "validation_metrics": {
+      "balanced": {
+        "threshold": 0.5081632653061224,
+        "accuracy": 0.972095075277119,
+        "precision": 0.9782122905027933,
+        "recall": 0.9656960070593426,
+        "f1": 0.9719138543516874
+      },
+      "security": {
+        "threshold": 0.1,
+        "accuracy": 0.9220757734517179,
+        "precision": 0.8690326936059408,
+        "recall": 0.9939333774542246,
+        "f1": 0.9272961152559814
+      },
+      "operations": {
+        "threshold": 0.9,
+        "accuracy": 0.9336568686924392,
+        "precision": 0.99835213588541,
+        "recall": 0.8687403485550408,
+        "f1": 0.9290474786198761
+      }
+    }
+  },
+  "faulty": {
+    "optimal_thresholds": null,
+    "validation_metrics": null
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "comparison_table": [
+    {
+      "Model": "Random Forest",
+      "Dataset": "Clean",
+      "Type": "Supervised",
+      "Accuracy": 97.2095075277119,
+      "Precision": 97.82122905027933,
+      "Recall": 96.56960070593425,
+      "F1-Score": 97.19138543516874,
+      "Threshold": 0.5081632653061224
+    },
+    {
+      "Model": "XGBoost",
+      "Dataset": "Clean",
+      "Type": "Supervised",
+      "Accuracy": 97.46870346881377,
+      "Precision": 97.96054831160147,
+      "Recall": 96.9556585043018,
+      "F1-Score": 97.45551305504739,
+      "Threshold": 0.5081632653061224
+    }
+  ],
+  "best_model_clean": {
+    "model": "XGBoost",
+    "metrics": {
+      "Model": "XGBoost",
+      "Dataset": "Clean",
+      "Type": "Supervised",
+      "Accuracy": 97.46870346881377,
+      "Precision": 97.96054831160147,
+      "Recall": 96.9556585043018,
+      "F1-Score": 97.45551305504739,
+      "Threshold": 0.5081632653061224
+    }
+  },
+  "best_model_faulty": null,
+  "note": "Validation only - No test data used in this cell"
+}

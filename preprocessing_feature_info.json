@@ -1,0 +1,35 @@
+{
+  "supervised_features_clean": [
+    "sbytes",
+    "dbytes",
+    "rate",
+    "sttl",
+    "dttl",
+    "sload",
+    "dload",
+    "ct_state_ttl",
+    "dpkts",
+    "dur",
+    "ct_dst_sport_ltm",
+    "ct_dst_src_ltm",
+    "spkts",
+    "ct_srv_src",
+    "ct_dst_ltm"
+  ],
+  "anomaly_features_clean": [
+    "stcpb",
+    "dtcpb",
+    "sload",
+    "dload",
+    "sbytes",
+    "dbytes",
+    "rate",
+    "sjit",
+    "response_body_len",
+    "sinpkt",
+    "djit",
+    "dinpkt",
+    "dmean",
+    "smean"
+  ]
+}

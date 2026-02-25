@@ -1,0 +1,35 @@
+{
+  "clean": {
+    "optimal_thresholds": {
+      "balanced_grid": 0.5081632653061224,
+      "balanced_pr": 0.5156314373016357,
+      "security": 0.1,
+      "operations": 0.9
+    },
+    "validation_metrics": {
+      "balanced": {
+        "threshold": 0.5081632653061224,
+        "accuracy": 0.9746870346881377,
+        "precision": 0.9796054831160147,
+        "recall": 0.9695565850430179,
+        "f1": 0.9745551305504739
+      },
+      "security": {
+        "threshold": 0.1,
+        "accuracy": 0.94545855622346,
+        "precision": 0.9069837750680237,
+        "recall": 0.9927200529450695,
+        "f1": 0.9479172152298699
+      },
+      "operations": {
+        "threshold": 0.9,
+        "accuracy": 0.9558815419401092,
+        "precision": 0.9966354241768806,
+        "recall": 0.914846679902934,
+        "f1": 0.9539912583390844
+      }
+    },
+    "imbalance_handling": "SMOTE only"
+  },
+  "faulty": null
+}
