@@ -1,8 +1,0 @@
-{
-  "robustness_scores": {},
-  "overall_framework": 0.0,
-  "primary_model": "N/A",
-  "primary_score": null,
-  "calculation": "(Faulty F1 / Clean F1) \u00d7 100",
-  "interpretation": ">95=Excellent, >90=Good, >85=Fair, <85=Poor"
-}
