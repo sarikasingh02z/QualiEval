@@ -1,87 +1,89 @@
-# 🔬 QualiEval — Data Quality Inspection for Network Traffic Anomaly Detection
+#  QualiEval — Data Quality Inspection for Network Traffic Anomaly Detection
 
-QualiEval is a **Gradio-based interactive framework** designed to audit dataset quality before modeling, detect data risks (missing values, outliers, class imbalance, leakage), and recommend the most robust machine learning model for **network traffic anomaly detection**.
+**What is QualiEval?**
+QualiEval is an interactive 6-tab web app that lets you upload any tabular dataset and instantly see how data quality issues — missing values, class imbalance, leakage, outliers — affect your ML models.
+Instead of just reading about data quality problems, this tool lets you see them happen in real time.
 
-It bridges the gap between exploratory data analysis (EDA) and model selection — helping security analysts and data scientists avoid silent failures caused by poor data quality.
+**The Experiment Behind It**
+I trained models on two versions of the same dataset:
 
----
+Clean version — UNSW-NB15 network intrusion dataset as-is
+Faulty version — same dataset with deliberately injected faults:
 
-## 🚀 Live Demo (Hugging Face)
+**Fault**        **Amount**           **Why It Hurts**
+Missing Values     15%              Forces models to guess or drop signal 
+Label Noise        12%              Model trains on lies — can't detect it
+Extreme Outliers    8%              Drags decision boundary the wrong way 
+Duplicate Rows      5%              Model overfits to patterns that aren't real
+Sensor Drift       20%              Gradual shifts that go completely unnoticed
 
-👉 [Insert Hugging Face Space Link Here]
+Results on 175,341 test samples:
+**Model**       **Clean F1**    **Faulty F1**    **Drop**
+Random Forest     94.86%           ~91.8%           ~3%
+XGBoost           94.09%           ~92.5%           ~3%
+The models didn't crash. They degraded quietly — which is the real danger.
 
----
+**The 6-Tab Framework*8
+Tab 1 — Upload & Inspect
+Upload any CSV and instantly get:
+-Missing value detection with severity ratings
+-Class imbalance analysis with ratio scoring
+-Data leakage detection (correlation scan + future-keyword scan)
+-Outlier detection using IQR method
+Tab 2 — Model Risk Assessment
+Scores Logistic Regression, Random Forest, and XGBoost (0–100) based on your specific dataset's issues — not generic advice.
+Tab 3 — Model Explanation
+Explains exactly why each model succeeds or fails on your data, with the reasoning tailored to what the inspection found.
+Tab 4 — Stress Tests
+Shows estimated performance drops per model across 4 fault scenarios — calculated from your actual dataset profile, not hardcoded values.
+Tab 5 — Actionable Fixes
+Prioritized fix plan (CRITICAL → HIGH → MEDIUM → STANDARD) with actual code snippets for each issue found.
+Tab 6 — Final Recommendation
+Real results from training on UNSW-NB15 with threshold sensitivity analysis across 3 scenarios:
 
-## 🧠 Why QualiEval?
+-Security (threshold = 0.10) — catch everything, tolerate false alarms
+-Balanced (threshold = 0.52) — best overall F1
+-Operations (threshold = 0.90) — high precision, fewer false positives
 
-In network intrusion detection, **data quality directly impacts security outcomes**:
+**Architecture**
+STAGE 1 — Data Quality Audit (Isolation Forest)
+    ↓ unsupervised — no labels needed
+    "Is this data point statistically weird?"
+    Clean anomaly rate: 1.2% → Faulty: 4.7%
+    Proves fault injection worked ✓
 
-| Problem | Consequence |
-|--------|-------------|
-| Missing values | Biased models, missed attacks |
-| Class imbalance | Model ignores minority attacks |
-| Data leakage | Overly optimistic, fails in production |
-| Outliers | False positives / false negatives |
+STAGE 2 — Attack Classification (Random Forest + XGBoost)
+    ↓ supervised — trained on labeled data
+    "Is this network traffic an attack?"
+    RF ROC-AUC: 0.9856 | XGB ROC-AUC: 0.9849
 
-QualiEval catches these issues **before you train a single model**.
+STAGE 3 — Robustness Comparison
+    ↓ clean vs faulty performance gap
+    XGBoost Robustness Score: 97.2/100
+    Random Forest Robustness Score: 96.8/100
 
----
+Key insight: Isolation Forest is NOT a classifier here. It's a data quality auditor — trained only on normal samples to flag suspicious records before the supervised models ever see the data.
 
-## ✨ Key Features
+**Feature Selection**
+Used a hybrid voting approach combining 3 methods:
 
-| Feature | Description |
-|---------|-------------|
-| 📊 **Data Quality Audit** | Missing %, column types, class imbalance, outliers, leakage candidates |
-| ⚠️ **Model Risk Assessment** | Predicts model-specific risk (LR, RF, XGB) based on detected issues |
-| 🧪 **Stress Tests** | Simulates performance drop under real-world data problems |
-| 🛠️ **Actionable Fixes** | Generates concrete steps: imputation, SMOTE, leakage removal |
-| 🎚️ **Threshold Optimization** | Visual F1/Precision/Recall curves with optimal cutoff for different scenarios |
-| 🔁 **State Persistence** | Full session memory across tabs — no re-upload needed |
+Manual selection (domain knowledge) — 2 votes
+Mutual Information — 1 vote
+Random Forest Importance — 1 vote
 
----
+Result: 42 features → 18 features with no F1 loss (slight improvement on cross-validation)
 
-## 📊 Model Performance (on Test Data)
+**Dataset**
+Trained and tested on UNSW-NB15 — a network intrusion detection dataset created by the Australian Centre for Cyber Security (ACCS).
+-247,872 total samples (train + test)
+-49 features covering network traffic attributes
+-Binary classification: Normal (0) vs Attack (1)
 
-### Random Forest
-| Scenario | Threshold | Accuracy | Precision | Recall | F1 Score |
-|----------|-----------|----------|-----------|--------|----------|
-| Default | 0.50 | 89.28% | 98.96% | 85.14% | 91.54% |
-| **Security** 🛡️ | **0.10** | **93.05%** | **95.50%** | **94.23%** | **94.86%** |
-| Operations ⚙️ | 0.90 | 83.00% | 99.87% | 75.12% | 85.75% |
+**What I Learned**
+-Data quality > model choice — the same XGBoost model on clean vs faulty data told two completely different stories
+-Threshold tuning matters as much as the model — default 0.5 is rarely optimal
+-Isolation Forest has a specific job — it's not a classifier, it's an auditor. Using it as a classifier gave 32% accuracy. Using it correctly gave meaningful data quality signals.
+-Quiet degradation is the real risk — models don't fail loudly, they fail silently
 
-### XGBoost
-| Scenario | Threshold | Accuracy | Precision | Recall | F1 Score |
-|----------|-----------|----------|-----------|--------|----------|
-| Default | 0.50 | 89.32% | 98.88% | 85.29% | 91.58% |
-| **Security** 🛡️ | **0.10** | **92.17%** | **96.76%** | **91.57%** | **94.09%** |
-| Operations ⚙️ | 0.90 | 84.71% | 99.60% | 77.86% | 87.40% |
-
-### Isolation Forest (Anomaly Detection)
-- ROC-AUC: 0.4478 (trained on normal samples only)
-
----
-
-## 🖥️ Screenshots
-
-| Data Quality Audit | Model Risk Assessment |
-|--------------------|----------------------|
-| *[Add screenshot]* | *[Add screenshot]* |
-
-| Stress Tests | Threshold Optimization |
-|--------------|------------------------|
-| *[Add screenshot]* | *[Add screenshot]* |
-
----
-
-## 🛠️ Installation
-
-```bash
-# Clone repository
-git clone https://github.com/yourusername/qualieval.git
-cd qualieval
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Run the app
-python app.py
+Feedback Welcome
+This is a student project — I'm still learning and would genuinely appreciate any feedback, suggestions, or critique. Feel free to open an issue or reach out!
