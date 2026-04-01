@@ -1,25 +1,19 @@
-"# Python" 
-"__pycache__/" 
-"*.pyc" 
-".ipynb_checkpoints/" 
-"" 
-"# Model files (TOO LARGE for GitHub)" 
-"*.pkl" 
-"*.joblib" 
-"" 
-"# Data files" 
-"*.csv" 
-"*.json" 
-"" 
-"# Environment" 
-".env" 
-"venv/" 
-"" 
-"# Large model and data files" 
-"*.pkl" 
-"*.json" 
-"*.png" 
-"" 
-"# Checkpoint files" 
-".ipynb_checkpoints/" 
-"*_checkpoint*" 
+# Python
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# Model files (TOO LARGE for GitHub)
+*.pkl
+*.joblib
+
+# Data files
+*.csv
+
+# Environment
+.env
+venv/
+
+# Checkpoint files
+.ipynb_checkpoints/
+*_checkpoint*
